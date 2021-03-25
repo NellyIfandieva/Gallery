@@ -1,13 +1,14 @@
-﻿namespace Gallery.DataModels
+﻿namespace Gallery.InputModels
 {
-    using Enums;
+    using Gallery.Enums;
+    using Microsoft.AspNetCore.Http;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Item : BaseModel<int>
+    public class ItemCreateIM
     {
         private const string MinPrice = "0.00";
-        private const string MaxPrice = "10000";
+        private const string MaxPrice = "100.00";
         private const string RequiredErrorMessage = "The field is required.";
 
         [Required(ErrorMessage = RequiredErrorMessage)]
@@ -16,25 +17,16 @@
         [Required(ErrorMessage = RequiredErrorMessage)]
         public string Description { get; set; }
 
-        public List<ItemImage> ImageUrls { get; set; } = new List<ItemImage>();
+        public ICollection<IFormFile> ImageUrls { get; set; } = new List<IFormFile>();
 
         public ItemType Type { get; set; }
-
         public CommercialType CommercialType { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         public string Size { get; set; }
 
-        [Range(typeof(decimal), MinPrice, MaxPrice)]
         public decimal Price { get; set; }
 
         public byte Quantity { get; set; }
-
-        public bool IsAvailable { get; set; }
-        public string OrderId { get; set; }
-        public Order Order { get; set; }
-
-        public string ShoppingCartId { get; set; }
-        public ShoppingCart ShoppingCart { get; set; }
     }
 }

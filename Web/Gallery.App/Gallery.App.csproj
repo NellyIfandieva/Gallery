@@ -7,16 +7,28 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\Gallery.DataModels\Gallery.DataModels.csproj" />
     <ProjectReference Include="..\..\Data\Gallery.Data\Gallery.Data.csproj" />
+    <ProjectReference Include="..\..\Services\Gallery.ServiceModels\Gallery.ServiceModels.csproj" />
     <ProjectReference Include="..\..\Services\Gallery.Services\Gallery.Services.csproj" />
+    <ProjectReference Include="..\Gallery.InputModels\Gallery.InputModels.csproj" />
+    <ProjectReference Include="..\Gallery.ViewModels\Gallery.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
 
 </Project>

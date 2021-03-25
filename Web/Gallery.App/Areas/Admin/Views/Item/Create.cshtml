@@ -1,0 +1,37 @@
+﻿@model ItemCreateIM
+
+<form id="adminCreate" enctype="multipart/form-data" method="post"
+      asp-area="Admin" asp-controller="Item" asp-action="Create">
+    <div>
+        <label asp-for="Title"></label>
+        <input type="text" asp-for="Title" placeholder="The Item Title Is Required" />
+    </div>
+    <div>
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" placeholder="The Description Is Required" />
+    </div>
+    <div>
+        <label asp-for="Type"></label>
+        <input asp-for="Type" placeholder="The Item Type" />
+    </div>
+    <div>
+        <label asp-for="CommercialType"></label>
+        <input asp-for="CommercialType" placeholder="It's A Gift, Personal Or For Sale" />
+    </div>
+    <div>
+        <label asp-for="Size"></label>
+        <input asp-for="Size" placeholder="S, M, L, XL - Required" />
+    </div>
+    <div>
+        <label asp-for="Price"></label>
+        <input type="number" asp-for="Price" placeholder="$0.00 - $100.00 - Required" />
+    </div>
+    <div>
+        <label asp-for="Price"></label>
+        <input type="number" asp-for="Price" placeholder="$0.00 - $100.00 - Required" />
+    </div>
+    <div>
+        @*upload images*@
+    </div>
+    <input type="submit" />
+</form>

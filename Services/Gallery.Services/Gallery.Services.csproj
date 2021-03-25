@@ -4,4 +4,10 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\Gallery.DataModels\Gallery.DataModels.csproj" />
+    <ProjectReference Include="..\..\Data\Gallery.Data\Gallery.Data.csproj" />
+    <ProjectReference Include="..\Gallery.ServiceModels\Gallery.ServiceModels.csproj" />
+  </ItemGroup>
+
 </Project>

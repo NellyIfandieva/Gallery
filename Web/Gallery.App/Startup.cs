@@ -11,6 +11,7 @@ namespace Gallery.App
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using System.Linq;
 
     public class Startup
     {
@@ -44,11 +45,32 @@ namespace Gallery.App
                 .AddTransient<IItemService, ItemService>(); 
 
             services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            using (IServiceScope serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = serviceScope
+                    .ServiceProvider
+                    .GetRequiredService<GalleryDbContext>();
+
+                dbContext.Database.Migrate();
+
+                if (!dbContext.Roles.Any())
+                {
+                    var adminRole = new IdentityRole
+                    {
+                        Name = "Admin",
+                        NormalizedName = "ADMIN"
+                    };
+
+                    dbContext.Roles.Add(adminRole);
+                    dbContext.SaveChanges();
+                }
+            }
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -70,6 +92,11 @@ namespace Gallery.App
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                     name: "areas",
+                     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                   );
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
