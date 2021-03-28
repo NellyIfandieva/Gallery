@@ -16,7 +16,7 @@
         [Required(ErrorMessage = RequiredErrorMessage)]
         public string Description { get; set; }
 
-        public List<ItemImage> ImageUrls { get; set; } = new List<ItemImage>();
+        public List<ItemImage> Images { get; set; } = new List<ItemImage>();
 
         public ItemType Type { get; set; }
 
@@ -31,6 +31,7 @@
         public byte Quantity { get; set; }
 
         public bool IsAvailable { get; set; }
+
         public string OrderId { get; set; }
         public Order Order { get; set; }
 

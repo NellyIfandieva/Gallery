@@ -31,10 +31,17 @@ namespace Gallery.App.Controllers
                 .DisplayAllItemsAsync(null);
 
             var allItemsToDisplay = allItemsInDb
-                .Select(i => new ItemVM
+                .Select(i => new ItemListingVM
                 { 
                     Id = i.Id,
                     Title = i.Title,
+                    Images = i.Images
+                    .Select(im => new ImageVM
+                    {
+                       Id = im.Id,
+                       Url = im.Url,
+                       ItemId = im.ItemId
+                    }).ToList(),
                     Type = i.Type,
                     Size = i.Size,
                     Price = i.Price

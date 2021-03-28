@@ -82,7 +82,22 @@
 
             var itemInDb = await this.itemService
                 .GetByIdAsync(itemId);
-            return View(new ItemDetailsVM());
+
+            var detaislVM = new ItemDetailsVM
+            {
+                Id = itemInDb.Id,
+                Title = itemInDb.Title,
+                Description = itemInDb.Description,
+                Type = itemInDb.Type,
+                CommercialType = itemInDb.CommercialType,
+                Size = itemInDb.Size,
+                Price = itemInDb.Price,
+                Quantity = itemInDb.Quantity,
+                ImageUrls = itemInDb.ImageUrls,
+                IsAvailable = itemInDb.IsAvailable
+            };
+
+            return View(detaislVM);
         }
     }
 }

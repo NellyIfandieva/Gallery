@@ -27,7 +27,6 @@
                 Title = model.Title,
                 Description = model.Description,
                 Size = model.Size,
-              //  ImageUrls = model.ImageUrls,
                 Price = model.Price,
                 Quantity = model.Quantity
             };
@@ -35,7 +34,20 @@
             this.db.Items.Add(item);
             int? result = await db.SaveChangesAsync();
 
-            return result;
+            if(result == null)
+            {
+                return result;
+            }
+
+            item.Images = await CreateImages(model.ImageUrls, item);
+            result = await db.SaveChangesAsync();
+
+            if (result == null)
+            {
+                return result;
+            }
+
+            return item.Id;
         }
 
         public async Task<IEnumerable<ItemSM>> DisplayAllItemsAsync(CommercialType? commercialType)
@@ -44,11 +56,20 @@
             {
                 return await this.db
                 .Items
+                .Include(i => i.Images)
                 .Select(i => new ItemSM
                 {
                     Id = i.Id,
                     Type = i.Type,
                     Title = i.Title,
+                    Images = i.Images
+                    .Select(im => new ImageSM
+                    {
+                        Id = im.Id,
+                        Url = im.Url,
+                        ItemId = im.ItemId
+                    }).ToList(),
+                    CommercialType = i.CommercialType,
                     Size = i.Size,
                     Price = i.Price
                 })
@@ -58,11 +79,19 @@
             return await this.db
                 .Items
                 .Where(i => i.CommercialType == commercialType)
+                .Include(i => i.Images)
                 .Select(i => new ItemSM
                 {
                     Id = i.Id,
                     Type = i.Type,
                     Title = i.Title,
+                    Images = i.Images
+                    .Select(im => new ImageSM
+                    {
+                        Id = im.Id,
+                        Url = im.Url,
+                        ItemId = im.ItemId
+                    }).ToList(),
                     Size = i.Size,
                     Price = i.Price
                 })
@@ -81,9 +110,34 @@
             return null;
         }
 
-        private void AddMainPicture(Item item, ItemImage image)
+        private async Task<List<ItemImage>> CreateImages(List<string> imageUrls, Item item)
         {
-            item.ImageUrls.Add(image);
+            var images = new List<ItemImage>();
+
+            foreach (var url in imageUrls)
+            {
+                images.Add(new ItemImage
+                {
+                    Url = url,
+                    ItemId = item.Id,
+                    Item = item
+                });
+            }
+
+            this.db.ItemImages.AddRange(images);
+            int? result = await db.SaveChangesAsync();
+
+            if (result == null)
+            {
+                return null;
+            }
+
+            return images;
         }
+
+        //private void AddMainPicture(Item item, ItemImage image)
+        //{
+        //    item.ImageUrls.Add(image);
+        //}
     }
 }

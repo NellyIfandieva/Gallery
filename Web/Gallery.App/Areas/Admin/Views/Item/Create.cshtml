@@ -8,7 +8,7 @@
     </div>
     <div>
         <label asp-for="Description"></label>
-        <textarea asp-for="Description" placeholder="The Description Is Required" />
+        <textarea asp-for="Description">Enter The Item Description. It's Required</textarea>
     </div>
     <div>
         <label asp-for="Type"></label>
@@ -16,7 +16,7 @@
     </div>
     <div>
         <label asp-for="CommercialType"></label>
-        <input asp-for="CommercialType" placeholder="It's A Gift, Personal Or For Sale" />
+        <input asp-for="CommercialType" placeholder="Gift, Personal Or For Sale" />
     </div>
     <div>
         <label asp-for="Size"></label>
@@ -27,11 +27,23 @@
         <input type="number" asp-for="Price" placeholder="$0.00 - $100.00 - Required" />
     </div>
     <div>
-        <label asp-for="Price"></label>
-        <input type="number" asp-for="Price" placeholder="$0.00 - $100.00 - Required" />
+        <label asp-for="Quantity"></label>
+        <input type="number" asp-for="Quantity" placeholder="Minimum 1" />
     </div>
+    @*<div>
+            <label asp-for="Images"></label>
+            <input type="file" asp-for="Images" id="files" name="files" multiple>
+        </div>*@
     <div>
-        @*upload images*@
+        <dl style="color:black">
+            <dt>
+                <label asp-for="Images"></label>
+            </dt>
+            <dd>
+                <input type="file" asp-for="Images" multiple>
+                <span asp-validation-for="Images"></span>
+            </dd>
+        </dl>
     </div>
     <input type="submit" />
 </form>

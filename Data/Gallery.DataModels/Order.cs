@@ -6,13 +6,14 @@
 
     public class Order : BaseModel<string>
     {
-
         [Display(Name = "Issued On")]
         public DateTime IssuedOn { get; set; } = DateTime.UtcNow;
 
+        [Required(ErrorMessage = "The UserId Is Required")]
         public string UserId { get; set; }
         public GalleryUser User { get; set; }
 
-        public List<OrderedProduct> OrderedProducts { get; set; } = new List<OrderedProduct>();
+        public List<OrderedProduct> OrderedProducts { get; set; } = 
+            new List<OrderedProduct>();
     }
 }

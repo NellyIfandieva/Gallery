@@ -1,28 +1,31 @@
-﻿@model IEnumerable<ItemVM>
+﻿@model IEnumerable<ItemListingVM>
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div id="homeIndex" class="text-center">
+<!--<div id="homeIndex" class="text-center">
     <h1 class="display-4">Neurographics</h1>
     
     <div class="itemListing">
         <figure>
-            <img src="~/images/NG_Logo_WhiteBckgrnd.png" alt="My my"/>
+            <img src="~/images/NG_Logo_WhiteBckgrnd.png" alt="My my" />
             <figcaption>
                 <a><h4><b>Title:&nbsp;</b>My Calm Mind</h4></a>
                 <a><h4><b>Size:&nbsp;</b>S</h4></a>
                 <a><h4><b>Price:&nbsp;</b>$30</h4></a>
             </figcaption>
-        </figure>
-        @*<div class="imageHolder">
+        </figure>-->
+
+        <!--Comment this part start-->
+        <!--<div class="imageHolder">
         </div>
         <a><h4><b>Title:&nbsp;</b>My Calm Mind</h4></a>
         <a><h4><b>Size:&nbsp;</b>S</h4></a>
-        <a><h4><b>Price:&nbsp;</b>$30</h4></a>*@
-    </div>
-    <div class="itemListing">
+        <a><h4><b>Price:&nbsp;</b>$30</h4></a>-->
+        <!--Comment this part end-->
+    <!--</div>-->
+    @*<div class="itemListing">
         <a><h4><b>Title:&nbsp;</b>My Personal Affairs&ndash;One</h4></a>
         <a><h4><b>Size:&nbsp;</b>S</h4></a>
         <a><h4><b>Price:&nbsp;</b>$30.00</h4></a>
@@ -31,17 +34,36 @@
         <a><h4><b>Title:&nbsp;</b>Full Stack Of Success</h4></a>
         <a><h4><b>Size:&nbsp;</b>S</h4></a>
         <a><h4><b>Price:&nbsp;</b>$30.00</h4></a>
-    </div>
+    </div>*@
 
-    @*@for (var i = 0; i < Model.Count() - 1; i += 4)
+<div id="homeIndex">
+    <h1>All Neurographic Drawings</h1>
+
+    @for (var i = 0; i < Model.Count() - 1; i += 4)
+    {
+        for (var j = i; j < i + 4; j++)
         {
-            for(var j = i; j < i + 4; j++)
-            {
-                <div class="itemListing">
-                    <a><h4><b>Title:&nbsp;</b>@Model.ElementAt(j).Title</h4></a>
-                    <a><h4><b>Size:&nbsp;</b>@Model.ElementAt(j).Size</h4></a>
-                    <a><h4><b>Price:&nbsp;</b>@Model.ElementAt(j).Price</h4></a>
-                </div>
-            }
-        }*@
+            var currentItem = Model.ElementAt(j);
+            var mainImage = currentItem.Images.ElementAt(0);
+
+            <div class="itemListing">
+                <figure>
+                    <a asp-controller="Items" asp-action="Details"><img src="@mainImage.Url" alt="@currentItem.Title's Main Image" /></a>
+                    <a class="indexListingFigcapt" asp-controller="Items" asp-action="Details">
+                        <figcaption>
+                            <a><h5><b>Title:&nbsp;</b>@currentItem.Title</h5></a>
+                            <a><h5><b>Size:&nbsp;</b>@currentItem.Size</h5></a>
+                            <a><h5><b>Price:&nbsp;</b>@currentItem.Price</h5></a>
+
+                            @if (currentItem.CommercialType == CommercialType.ForSale &&
+                            currentItem.IsAvailable)
+                            {
+                                <button>Get It</button>
+                            }
+                        </figcaption>
+                    </a>
+                </figure>
+            </div>
+        }
+    }
 </div>

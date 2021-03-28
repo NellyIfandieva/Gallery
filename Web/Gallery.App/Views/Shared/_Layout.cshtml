@@ -24,6 +24,12 @@
                         <input type="submit" value="Go" />
                     </form>
                 </span>
+
+                @if(this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
+                {
+                    <partial name="_AdminPartial"/>
+                }
+
                 <partial name="_LoginPartial" />
                 @*<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
@@ -48,7 +54,9 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.UtcNow.Year - Nelly's Neurographics Gallery - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; @DateTime.UtcNow.Year - Nelly's Neurographic Gallery&nbsp;&ndash;&nbsp;
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>&nbsp;&ndash;&nbsp;
+            <a asp-area="" asp-controller="About" asp-action="Neorographics">About Neurographics</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

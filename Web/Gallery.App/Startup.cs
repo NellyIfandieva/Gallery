@@ -1,5 +1,6 @@
 namespace Gallery.App
 {
+    using CloudinaryDotNet;
     using Data;
     using DataModels;
     using Gallery.Services;
@@ -7,6 +8,7 @@ namespace Gallery.App
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +33,18 @@ namespace Gallery.App
                 .UseSqlServer(Configuration
                                 .GetConnectionString("DefaultConnection")));
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 3;
+                options.Password.RequiredUniqueChars = 0;
+
+                options.User.RequireUniqueEmail = true;
+            });
+
             services
                 .AddDatabaseDeveloperPageExceptionFilter();
 
@@ -41,8 +55,28 @@ namespace Gallery.App
                 .RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<GalleryDbContext>();
 
+            var cloudinaryCredentials = new Account(
+                Configuration["Cloudinary:CloudName"],
+                Configuration["Cloudinary:ApiKey"],
+                Configuration["Cloudinary:ApiSecret"]);
+
+            var cloudinaryUtility = new Cloudinary(cloudinaryCredentials);
+
+            var sendGridCredentials = new Account(
+                Configuration["SendGrid:ApiKey"],
+                Configuration["SendGrid:ApiSecret"],
+                Configuration["SendGrid:Username"]
+                );
+
             services
-                .AddTransient<IItemService, ItemService>(); 
+                .AddSingleton(cloudinaryUtility);
+
+            services
+                .AddTransient<ICloudinaryService, CloudinaryService>();
+            services.AddTransient<IEmailSender, EmailSender>();
+
+            services
+                .AddTransient<IItemService, ItemService>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

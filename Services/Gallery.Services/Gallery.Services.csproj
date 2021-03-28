@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CloudinaryDotNet" Version="1.15.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Data\Gallery.DataModels\Gallery.DataModels.csproj" />
     <ProjectReference Include="..\..\Data\Gallery.Data\Gallery.Data.csproj" />
     <ProjectReference Include="..\Gallery.ServiceModels\Gallery.ServiceModels.csproj" />

@@ -4,14 +4,16 @@ using Gallery.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Gallery.Data.Migrations
 {
     [DbContext(typeof(GalleryDbContext))]
-    partial class GalleryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210327135943_AddedDataAnnotaionsToEntitiesLeftOnlyProductIdInOrderedProduct")]
+    partial class AddedDataAnnotaionsToEntitiesLeftOnlyProductIdInOrderedProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,7 +165,7 @@ namespace Gallery.Data.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("ItemImages");
+                    b.ToTable("ItemImage");
                 });
 
             modelBuilder.Entity("Gallery.DataModels.Order", b =>
@@ -202,7 +204,7 @@ namespace Gallery.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderedProducts");
+                    b.ToTable("OrderedProduct");
                 });
 
             modelBuilder.Entity("Gallery.DataModels.ShoppingCart", b =>
@@ -395,7 +397,7 @@ namespace Gallery.Data.Migrations
             modelBuilder.Entity("Gallery.DataModels.ItemImage", b =>
                 {
                     b.HasOne("Gallery.DataModels.Item", "Item")
-                        .WithMany("Images")
+                        .WithMany("ImageUrls")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -507,7 +509,7 @@ namespace Gallery.Data.Migrations
 
             modelBuilder.Entity("Gallery.DataModels.Item", b =>
                 {
-                    b.Navigation("Images");
+                    b.Navigation("ImageUrls");
                 });
 
             modelBuilder.Entity("Gallery.DataModels.Order", b =>
