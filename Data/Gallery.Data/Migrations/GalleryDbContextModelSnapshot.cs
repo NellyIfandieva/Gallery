@@ -125,9 +125,8 @@ namespace Gallery.Data.Migrations
                     b.Property<string>("ShoppingCartId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Size")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Size")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()

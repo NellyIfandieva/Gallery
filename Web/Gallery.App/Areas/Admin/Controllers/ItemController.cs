@@ -1,11 +1,13 @@
 ﻿namespace Gallery.App.Areas.Admin.Controllers
 {
+    using Gallery.Enums;
     using Gallery.InputModels;
     using Gallery.ServiceModels;
     using Gallery.Services.Contracts;
     using Gallery.ViewModels;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -37,14 +39,35 @@
                 return View(model);
             }
 
+            ItemType itemType;
+            bool isValidType = Enum.TryParse<ItemType>(model.Type, out itemType);
+
+            CommercialType itemCommType;
+            bool isValidCommercialType = Enum.TryParse<CommercialType>(model.CommercialType, out itemCommType);
+
+            Sizing size;
+            bool isValidSize = Enum.TryParse<Sizing>(model.Size, out size);
+
+            if (isValidCommercialType == false ||
+                isValidType == false ||
+                isValidSize == false)
+            {
+                var error = new ErrorVM
+                {
+                    Message = "Please, insert Personal, Gift or ForSale as Commercial Type"
+                };
+
+                return RedirectToAction("Error", error);
+            }
+
             var createSM = new ItemCreateSM
             {
                 Title = model.Title,
                 Description = model.Description,
-                Type = model.Type,
-                CommercialType = model.CommercialType,
+                Type = itemType,
+                CommercialType = itemCommType,
+                Size = size,
                 Price = model.Price,
-                Size = model.Size,
                 Quantity = model.Quantity
             };
 

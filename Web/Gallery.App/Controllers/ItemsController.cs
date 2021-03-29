@@ -22,14 +22,21 @@
                 .DisplayAllItemsAsync(CommercialType.Gift);
 
             var allGiftsToDisplay = allGiftItemsInDb
-                .Select(i => new ItemVM
+                .Select(i => new ItemListingVM
                 {
                     Id = i.Id,
                     Title = i.Title,
                     Type = i.Type,
                     CommercialType = i.CommercialType,
                     Size = i.Size,
-                    Price = i.Price
+                    Price = i.Price,
+                    Images = i.Images
+                    .Select(im => new ImageVM
+                    {
+                        Id = im.Id,
+                        Url = im.Url,
+                        ItemId = i.Id
+                    }).ToList()
                 });
 
             return View(allGiftsToDisplay);
@@ -41,14 +48,21 @@
                 .DisplayAllItemsAsync(CommercialType.Personal);
 
             var allPersonalToDisplay = allPersonalItemsInDb
-                .Select(i => new ItemVM
+                .Select(i => new ItemListingVM
                 {
                     Id = i.Id,
                     Title = i.Title,
                     Type = i.Type,
                     CommercialType = i.CommercialType,
                     Size = i.Size,
-                    Price = i.Price
+                    Price = i.Price,
+                    Images = i.Images
+                    .Select(im => new ImageVM
+                    {
+                        Id = im.Id,
+                        Url = im.Url,
+                        ItemId = i.Id
+                    }).ToList()
                 });
 
             return View(allPersonalToDisplay);
@@ -57,22 +71,30 @@
         public async Task<IActionResult> AllForSale()
         {
             var allForSaleInDb = await this.itemService
-                .DisplayAllItemsAsync(CommercialType.Personal);
+                .DisplayAllItemsAsync(CommercialType.ForSale);
 
             var allForSaleDisplay = allForSaleInDb
-                .Select(i => new ItemVM
+                .Select(i => new ItemListingVM
                 {
                     Id = i.Id,
                     Title = i.Title,
                     Type = i.Type,
                     CommercialType = i.CommercialType,
                     Size = i.Size,
-                    Price = i.Price
+                    Price = i.Price,
+                    Images = i.Images
+                    .Select(im => new ImageVM
+                    {
+                        Id = im.Id,
+                        Url = im.Url,
+                        ItemId = i.Id
+                    }).ToList()
                 });
 
             return View(allForSaleDisplay);
         }
 
+        [HttpGet("Items/Details/itemId")]
         public async Task<IActionResult> Details(int itemId)
         {
             if(itemId <= 0)
@@ -83,7 +105,7 @@
             var itemInDb = await this.itemService
                 .GetByIdAsync(itemId);
 
-            var detaislVM = new ItemDetailsVM
+            var detailsVM = new ItemDetailsVM
             {
                 Id = itemInDb.Id,
                 Title = itemInDb.Title,
@@ -93,11 +115,17 @@
                 Size = itemInDb.Size,
                 Price = itemInDb.Price,
                 Quantity = itemInDb.Quantity,
-                ImageUrls = itemInDb.ImageUrls,
+                Images = itemInDb.Images
+                .Select(im => new ImageVM
+                { 
+                    Id = im.Id,
+                    Url = im.Url,
+                    ItemId = itemInDb.Id
+                }).ToList(),
                 IsAvailable = itemInDb.IsAvailable
             };
 
-            return View(detaislVM);
+            return View(detailsVM);
         }
     }
 }

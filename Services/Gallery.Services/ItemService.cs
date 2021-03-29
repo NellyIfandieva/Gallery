@@ -24,6 +24,7 @@
             var item = new Item
             {
                 Type = model.Type,
+                CommercialType = model.CommercialType,
                 Title = model.Title,
                 Description = model.Description,
                 Size = model.Size,
@@ -54,7 +55,7 @@
         {
             if(commercialType == null)
             {
-                return await this.db
+                var all = await this.db
                 .Items
                 .Include(i => i.Images)
                 .Select(i => new ItemSM
@@ -74,11 +75,13 @@
                     Price = i.Price
                 })
                 .ToListAsync();
+
+                return all;
             }
 
-            return await this.db
+            var allOfCommType = await this.db
                 .Items
-                .Where(i => i.CommercialType == commercialType)
+                .Where(i => i.CommercialType.Equals(commercialType))
                 .Include(i => i.Images)
                 .Select(i => new ItemSM
                 {
@@ -96,18 +99,37 @@
                     Price = i.Price
                 })
                 .ToListAsync();
+
+            return allOfCommType;
         }
 
         public async Task<ItemDetailsSM> GetByIdAsync(int itemId)
         {
             var itemInDb = await this.db
                 .Items
+                .Include(i => i.Images)
                 .Select(i => new ItemDetailsSM
                 {
-                    
+                    Id = i.Id,
+                    Title = i.Title,
+                    Description = i.Description,
+                    Size = i.Size,
+                    Type = i.Type,
+                    CommercialType = i.CommercialType,
+                    Price = i.Price,
+                    Quantity = i.Quantity,
+                    IsAvailable = i.IsAvailable,
+                    Images = i.Images
+                    .Select(im => new ImageSM
+                    {
+                        Id = im.Id,
+                        Url = im.Url,
+                        ItemId = i.Id
+                    }).ToList()
                 })
                 .SingleOrDefaultAsync(i => i.Id == itemId);
-            return null;
+
+            return itemInDb;
         }
 
         private async Task<List<ItemImage>> CreateImages(List<string> imageUrls, Item item)

@@ -10,7 +10,7 @@
         public List<ImageSM> Images { get; set; }
         public ItemType Type { get; set; }
         public CommercialType CommercialType { get; set; }
-        public string Size { get; set; }
+        public Sizing Size { get; set; }
         public decimal Price { get; set; }
     }
 }

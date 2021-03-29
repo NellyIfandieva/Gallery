@@ -13,12 +13,12 @@ namespace Gallery.ServiceModels
         public string Title { get; set; }
         public string Description { get; set; }
 
-        public List<string> ImageUrls { get; set; }
+        public List<ImageSM> Images { get; set; }
 
         public ItemType Type { get; set; }
         public CommercialType CommercialType { get; set; }
 
-        public string Size { get; set; }
+        public Sizing Size { get; set; }
 
         public decimal Price { get; set; }
 

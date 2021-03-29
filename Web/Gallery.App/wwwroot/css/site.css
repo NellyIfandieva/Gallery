@@ -107,18 +107,15 @@ h1 {
     margin: 3% 20%;
     text-align: center;
 }
-/* Provide sufficient contrast against white background */
-a {
-    color: #0366d6;
-}
 
+
+/*Index Page*/
 
 body > div.container > main[role="main"] > div#homeIndex > div.itemListing {
     display: inline-block;
-    width: 25%;
+    width: 27%;
     max-height: 315px;
     margin: 1% 2.5%;
-    border: 2px solid white;
     color: white;
     vertical-align: top;
 }
@@ -137,53 +134,76 @@ body > div.container > main[role="main"] > div#homeIndex > div.itemListing {
         max-height: 162px;
     }
 
-        body > div.container > main[role="main"] > div#homeIndex > div.itemListing > figure > a.indexListingFigcapt{
+        body > div.container > main[role="main"] > div#homeIndex > div.itemListing > figure > a#indexListingFigcapt{
             display: inline-block;
             width: 100%;
-        }
-
-        body > div.container > main[role="main"] > div#homeIndex > div.itemListing > figure > a.indexListingFigcapt > figcaption > a {
-            color: white;
             text-decoration: none;
         }
 
-        body > div.container > main[role="main"] > div#homeIndex > div.itemListing > figure > a.indexListingFigcapt > figcaption > a > h5 {
-            margin-block-start: .67em;
-            margin-block-end: .67em;
-            margin-inline-start: 0px;
-            margin-inline-end: 0px;
-            font-weight: normal;
-        }
+            body > div.container > main[role="main"] > div#homeIndex > div.itemListing > figure > a#indexListingFigcapt > figcaption {
+                background-color: rgba(0, 0, 0, 0.5);
+                color: white;
+                padding: .5% 2%;
+            }
 
-        body > div.container > main[role="main"] > div.details {
-            width: 70%;
-            margin: 3% 12%;
-            padding: 3%;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-        }
+                body > div.container > main[role="main"] > div#homeIndex > div.itemListing > figure > a#indexListingFigcapt > figcaption > h5 {
+                    margin-block-start: .67em;
+                    margin-block-end: .67em;
+                    margin-inline-start: 0px;
+                    margin-inline-end: 0px;
+                    font-weight: normal;
+                }
 
-    body > div.container > main[role="main"] > div.details > figure{
+/*Details Page*/
+
+body > div.container > main[role="main"] > div#detailsHolder {
+    width: 70%;
+    margin: 3% 12%;
+    padding: 3%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+    body > div.container > main[role="main"] > div#detailsHolder > figure {
         width: 100%;
     }
 
-    body > div.container > main[role="main"] > div.details > figure > img {
-        display: inline-block;
-        width: 45%;
-    }
+        body > div.container > main[role="main"] > div#detailsHolder > figure > img {
+            display: inline-block;
+            width: 45%;
+            vertical-align: top;
+        }
 
-        body > div.container > main[role="main"] > div.details > figure > figcaption{
+        body > div.container > main[role="main"] > div#detailsHolder > figure > figcaption {
             display: inline-block;
             width: 45%;
             text-align: justify;
             margin-left: 2%;
+            vertical-align: top;
         }
 
-        body > div.container > main[role="main"] > form#adminCreate {
-            width: 50%;
-            margin: 2% 25%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
+            body > div.container > main[role="main"] > div#detailsHolder > figure > figcaption > p {
+                max-width: 50%;
+                margin-block-start: 0;
+                margin-block-end: 0;
+            }
+
+            body > div.container > main[role="main"] > div#detailsHolder > figure > figcaption > h4 {
+                font-weight: normal;
+            }
+
+                body > div.container > main[role="main"] > div#detailsHolder > figure > figcaption > h4.commTypeHL{
+                    width: 35%;
+                    padding: 1%;
+                    background-color: rgb(207, 18, 141);
+                    color: white;
+                    text-align: center;
+                }
+            body > div.container > main[role="main"] > form#adminCreate {
+                width: 50%;
+                margin: 2% 25%;
+                background-color: rgba(0, 0, 0, 0.5);
+            }
 
 .btn-primary {
     color: #fff;
@@ -269,6 +289,7 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+
 .footer {
   position: absolute;
   bottom: 0;
@@ -279,6 +300,7 @@ body {
 
 footer > div.container, 
 footer > div.container > a{
+    font-size: .8rem;
     color: white;
     text-decoration: none;
 }

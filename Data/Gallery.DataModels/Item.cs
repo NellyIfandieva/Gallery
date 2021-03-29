@@ -22,8 +22,7 @@
 
         public CommercialType CommercialType { get; set; }
 
-        [Required(ErrorMessage = RequiredErrorMessage)]
-        public string Size { get; set; }
+        public Sizing Size { get; set; }
 
         [Range(typeof(decimal), MinPrice, MaxPrice)]
         public decimal Price { get; set; }

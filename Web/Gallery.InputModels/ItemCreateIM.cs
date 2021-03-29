@@ -20,8 +20,11 @@
         [Required(ErrorMessage = "At least one image is required.")]
         public ICollection<IFormFile> Images { get; set; } = new List<IFormFile>();
 
-        public ItemType Type { get; set; }
-        public CommercialType CommercialType { get; set; }
+        [Required(ErrorMessage = RequiredErrorMessage)]
+        public string Type { get; set; }
+
+        [Required(ErrorMessage = RequiredErrorMessage)]
+        public string CommercialType { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         public string Size { get; set; }

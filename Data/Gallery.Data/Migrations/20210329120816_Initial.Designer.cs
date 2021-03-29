@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gallery.Data.Migrations
 {
     [DbContext(typeof(GalleryDbContext))]
-    [Migration("20210324184852_Initial")]
+    [Migration("20210329120816_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,12 +29,12 @@ namespace Gallery.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeliveryAddress")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -105,6 +105,9 @@ namespace Gallery.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CommercialType")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -124,10 +127,11 @@ namespace Gallery.Data.Migrations
                     b.Property<string>("ShoppingCartId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Size")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Size")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Type")
@@ -153,13 +157,14 @@ namespace Gallery.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Url")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("ItemImage");
+                    b.ToTable("ItemImages");
                 });
 
             modelBuilder.Entity("Gallery.DataModels.Order", b =>
@@ -171,6 +176,7 @@ namespace Gallery.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -190,26 +196,14 @@ namespace Gallery.Data.Migrations
                     b.Property<string>("OrderId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("PictureUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("ProductPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("ProductSize")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProductTitle")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderedProduct");
+                    b.ToTable("OrderedProducts");
                 });
 
             modelBuilder.Entity("Gallery.DataModels.ShoppingCart", b =>
@@ -218,6 +212,7 @@ namespace Gallery.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -401,7 +396,7 @@ namespace Gallery.Data.Migrations
             modelBuilder.Entity("Gallery.DataModels.ItemImage", b =>
                 {
                     b.HasOne("Gallery.DataModels.Item", "Item")
-                        .WithMany("ImageUrls")
+                        .WithMany("Images")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -413,7 +408,9 @@ namespace Gallery.Data.Migrations
                 {
                     b.HasOne("Gallery.DataModels.GalleryUser", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -429,7 +426,9 @@ namespace Gallery.Data.Migrations
                 {
                     b.HasOne("Gallery.DataModels.GalleryUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -509,7 +508,7 @@ namespace Gallery.Data.Migrations
 
             modelBuilder.Entity("Gallery.DataModels.Item", b =>
                 {
-                    b.Navigation("ImageUrls");
+                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("Gallery.DataModels.Order", b =>

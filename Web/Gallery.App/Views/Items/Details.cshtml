@@ -1,37 +1,45 @@
 ﻿@model ItemDetailsVM 
 
+@{ 
+    ViewData["Title"] = $"{Model.Title} Details";
+    var mainImage = Model.Images.ElementAt(0);
+}
+
+
 <div id="detailsHolder">
     <h1>@Model.Title</h1>
-    <img src="" alt=""/>
-    <div>
-        <h4>@Model.Description</h4>
-        <h4>@Model.Size</h4>
-        @if (Model.CommercialType == CommercialType.ForSale)
-        {
-            if (Model.IsAvailable)
+    <figure>
+        <img src="@mainImage.Url" alt="" />
+        <figcaption>
+            <p><b>Description: </b>@Model.Description</p>
+            <h4><b>Size:&nbsp;</b>@Model.Size</h4>
+            @if (Model.CommercialType == CommercialType.ForSale)
             {
-                <h4>@Model.Price</h4>
-                <button>Buy</button>
+                if (Model.IsAvailable)
+                {
+                    <h4>@Model.Price</h4>
+                    <button>Buy</button>
+                }
+                else
+                {
+                    <button>Sold</button>
+                }
             }
-            else
+            else if (Model.CommercialType == CommercialType.Gift)
             {
-                <button>Sold</button>
+                if (Model.IsAvailable)
+                {
+                    <button>Take It</button>
+                }
+                else
+                {
+                    <p>Given Away</p>
+                }
             }
-        }
-        else if (Model.CommercialType == CommercialType.Gift)
-        {
-            if(Model.IsAvailable)
+            else if (Model.CommercialType == CommercialType.Personal)
             {
-                <button>Take It</button>
+                <h4 class="commTypeHL">Personal Collection</h4>
             }
-            else
-            {
-                <p>Given Away</p>
-            }
-        }
-        else if(Model.CommercialType == CommercialType.Personal)
-        {
-            <button>Personal Collection</button>
-        }
-    </div>
+        </figcaption>
+    </figure>
 </div>

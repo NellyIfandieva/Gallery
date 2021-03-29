@@ -14,7 +14,7 @@ namespace Gallery.ServiceModels
         public List<string> ImageUrls { get; set; }
         public ItemType Type { get; set; }
         public CommercialType CommercialType { get; set; }
-        public string Size { get; set; }
+        public Sizing Size { get; set; }
         public decimal Price { get; set; }
         public byte Quantity { get; set; }
         public bool IsAvailable { get; set; } = true;

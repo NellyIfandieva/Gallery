@@ -43,11 +43,14 @@ namespace Gallery.App.Controllers
                        ItemId = im.ItemId
                     }).ToList(),
                     Type = i.Type,
+                    CommercialType = i.CommercialType,
                     Size = i.Size,
                     Price = i.Price
                 });
 
-            return View(allItemsToDisplay);
+            return View("Index1");
+
+            //return View(allItemsToDisplay);
         }
 
         public IActionResult Privacy()

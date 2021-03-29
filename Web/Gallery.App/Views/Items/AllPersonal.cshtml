@@ -1,0 +1,43 @@
+﻿@model IEnumerable<ItemListingVM>
+
+@{
+    ViewData["Title"] = "Personal Collection";
+}
+
+<div id="homeIndex">
+    <h1>Personal Drawings</h1>
+
+    @for (var i = 0; i < Model.Count() - 1; i += 3)
+    {
+        for (var j = i; j < i + 3; j++)
+        {
+            var currentItem = Model.ElementAt(j);
+            var mainImage = currentItem.Images.ElementAt(0);
+
+            <div class="itemListing">
+                <figure>
+                    <a asp-controller="Items" asp-action="Details" asp-route-itemId="@currentItem.Id">
+                        <img src="@mainImage.Url" alt="@currentItem.Title's Main Image" />
+                    </a>
+                    <a id="indexListingFigcapt" asp-controller="Items" asp-action="Details" asp-route-itemId="@currentItem.Id">
+                        <figcaption>
+                            <h5><b>Title:&nbsp;</b>@currentItem.Title</h5>
+                            <h5><b>Size:&nbsp;</b>@currentItem.Size</h5>
+                            @if (currentItem.CommercialType == CommercialType.ForSale)
+                            {
+                                <h5><b>Price:&nbsp;</b>@currentItem.Price</h5>
+                            }
+
+                        </figcaption>
+                    </a>
+
+                    @if (currentItem.CommercialType == CommercialType.ForSale &&
+                 currentItem.IsAvailable)
+                    {
+                        <button>Get It</button>
+                    }
+                </figure>
+            </div>
+        }
+    }
+</div>

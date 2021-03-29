@@ -28,7 +28,7 @@ namespace Gallery.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DeliveryAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -161,7 +161,7 @@ namespace Gallery.Data.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     IssuedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -171,7 +171,7 @@ namespace Gallery.Data.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -179,7 +179,7 @@ namespace Gallery.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -189,27 +189,23 @@ namespace Gallery.Data.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderedProduct",
+                name: "OrderedProducts",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    ProductTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProductSize = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProductPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrderId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderedProduct", x => x.Id);
+                    table.PrimaryKey("PK_OrderedProducts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderedProduct_Orders_OrderId",
+                        name: "FK_OrderedProducts_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
@@ -222,10 +218,11 @@ namespace Gallery.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    Size = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CommercialType = table.Column<int>(type: "int", nullable: false),
+                    Size = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Quantity = table.Column<byte>(type: "tinyint", nullable: false),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: false),
@@ -250,19 +247,19 @@ namespace Gallery.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItemImage",
+                name: "ItemImages",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ItemId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItemImage", x => x.Id);
+                    table.PrimaryKey("PK_ItemImages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ItemImage_Items_ItemId",
+                        name: "FK_ItemImages_Items_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "Id",
@@ -336,8 +333,8 @@ namespace Gallery.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemImage_ItemId",
-                table: "ItemImage",
+                name: "IX_ItemImages_ItemId",
+                table: "ItemImages",
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
@@ -351,8 +348,8 @@ namespace Gallery.Data.Migrations
                 column: "ShoppingCartId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderedProduct_OrderId",
-                table: "OrderedProduct",
+                name: "IX_OrderedProducts_OrderId",
+                table: "OrderedProducts",
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
@@ -394,10 +391,10 @@ namespace Gallery.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ItemImage");
+                name: "ItemImages");
 
             migrationBuilder.DropTable(
-                name: "OrderedProduct");
+                name: "OrderedProducts");
 
             migrationBuilder.DropTable(
                 name: "ShoppingCartItem");
